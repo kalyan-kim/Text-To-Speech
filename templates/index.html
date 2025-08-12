@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🎙️ Voice Assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #74ebd5, #9face6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: white;
+      border-radius: 20px;
+      padding: 40px;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 10px;
+      color: #333;
+      animation: floatIn 1.5s ease-out;
+    }
+
+    @keyframes floatIn {
+      0% {
+        transform: translateY(-20px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    textarea, select, button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 12px;
+      border: 2px solid #ddd;
+      font-size: 16px;
+      outline: none;
+      transition: 0.3s ease;
+    }
+
+    textarea:focus, select:focus {
+      border-color: #6c63ff;
+    }
+
+    button {
+      background-color: #6c63ff;
+      color: white;
+      border: none;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #5a54e1;
+    }
+
+    audio {
+      margin-top: 25px;
+      width: 100%;
+    }
+
+    .emoji {
+      font-size: 1.2em;
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎤 Text-to-Speech Assistant</h1>
+    <form id="ttsForm">
+      <label><span class="emoji">📝</span>Enter your message:</label>
+      <textarea name="text" rows="4" placeholder="Type something like 'Hello, how can I help you?'" required></textarea>
+
+      <label><span class="emoji">🎙️</span>Select a voice:</label>
+      <select name="voice" required>
+
+  <option value="ROMJ9yK1NAMuu1ggrjDW">Rachel</option>
+  <option value="bIHbv24MWmeRgasZH58o">Hope 👩</option>
+  <option value="cgSgspJ2msm6clMCkdW9">Johnny 👨</option>
+  <option value="IKne3meq5aSn9XLyUdCD">Jessica 👩</option>
+</select>
+
+
+      <button type="submit">🔊 Speak Now</button>
+    </form>
+
+    <audio id="audioPlayer" controls style="display:none;"></audio>
+  </div>
+<script>
+  document.getElementById("ttsForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    await fetch("/speak", {
+      method: "POST",
+      body: formData
+    });
+
+    const audioPlayer = document.getElementById("audioPlayer");
+    audioPlayer.src = "/play?t=" + new Date().getTime(); // prevents cache
+    audioPlayer.style.display = "block";
+    audioPlayer.load();
+    audioPlayer.play();
+  });
+</script>
+
+</body>
+</html>
