@@ -93,25 +93,35 @@
   <div class="container">
     <h1>🎤 Text-to-Speech Assistant</h1>
     <form id="ttsForm">
-      <label><span class="emoji">📝</span>Enter your message:</label>
-      <textarea name="text" rows="4" placeholder="Type something like 'Hello, how can I help you?'" required></textarea>
+  <label><span class="emoji">📝</span>Enter your message:</label>
+  <textarea name="text" rows="4" placeholder="Type something like 'Hello, how can I help you?'" required></textarea>
 
-      <label><span class="emoji">🎙️</span>Select a voice:</label>
-      <select name="voice" required>
-
-  <option value="ROMJ9yK1NAMuu1ggrjDW">Rachel</option>
-  <option value="bIHbv24MWmeRgasZH58o">Hope 👩</option>
-  <option value="cgSgspJ2msm6clMCkdW9">Johnny 👨</option>
-  <option value="IKne3meq5aSn9XLyUdCD">Jessica 👩</option>
-</select>
-
-
-      <button type="submit">🔊 Speak Now</button>
-    </form>
-
-    <audio id="audioPlayer" controls style="display:none;"></audio>
+  <!-- Emotion Buttons -->
+  <input type="hidden" name="emotion" id="emotionField" value="neutral">
+  <div style="margin-top: 10px;">
+    <button type="button" onclick="setEmotion('happy')">😊 Happy</button>
+    <button type="button" onclick="setEmotion('sad')">😢 Sad</button>
+    <button type="button" onclick="setEmotion('angry')">😡 Angry</button>
   </div>
+
+  <label><span class="emoji">🎙️</span>Select a voice:</label>
+  <select name="voice" required>
+    <option value="ROMJ9yK1NAMuu1ggrjDW">Rachel</option>
+    <option value="bIHbv24MWmeRgasZH58o">Hope 👩</option>
+    <option value="cgSgspJ2msm6clMCkdW9">Johnny 👨</option>
+    <option value="IKne3meq5aSn9XLyUdCD">Jessica 👩</option>
+  </select>
+
+  <button type="submit">🔊 Speak Now</button>
+</form>
+
+<audio id="audioPlayer" controls style="display:none;"></audio>
+
 <script>
+  function setEmotion(emotion) {
+    document.getElementById("emotionField").value = emotion;
+  }
+
   document.getElementById("ttsForm").addEventListener("submit", async function (e) {
     e.preventDefault();
 
@@ -122,12 +132,13 @@
     });
 
     const audioPlayer = document.getElementById("audioPlayer");
-    audioPlayer.src = "/play?t=" + new Date().getTime(); // prevents cache
+    audioPlayer.src = "/play?t=" + new Date().getTime();
     audioPlayer.style.display = "block";
     audioPlayer.load();
     audioPlayer.play();
   });
 </script>
+
 
 </body>
 </html>
